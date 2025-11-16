@@ -7,7 +7,9 @@ import edu.ds.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -17,26 +19,67 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void add(Student student) {
-
+        studentRepository.save(new StudentEntity(
+                student.getId(),
+                student.getFirstName(),
+                student.getLastName(),
+                student.getGender(),
+                student.getGrade(),
+                student.getAddress(),
+                student.getMobile()
+        ));
     }
 
     @Override
     public Student get(String id) {
-        return null;
+        StudentEntity studentEntity = studentRepository.findById(id).get();
+        return new Student(
+                studentEntity.getId(),
+                studentEntity.getFirstName(),
+                studentEntity.getLastName(),
+                studentEntity.getGender(),
+                studentEntity.getGrade(),
+                studentEntity.getAddress(),
+                studentEntity.getMobile()
+        );
     }
 
     @Override
     public void update(Student student) {
-
+        studentRepository.save(new StudentEntity(
+                student.getId(),
+                student.getFirstName(),
+                student.getLastName(),
+                student.getGender(),
+                student.getGrade(),
+                student.getAddress(),
+                student.getMobile()
+        ));
     }
 
     @Override
     public void delete(String id) {
-
+        studentRepository.deleteById(id);
     }
 
     @Override
     public List<Student> getAll() {
-        return List.of();
+
+        List<StudentEntity> all = studentRepository.findAll();
+        List<Student> allStudents = new ArrayList<>();
+
+        for (StudentEntity studentEntity : all) {
+            allStudents.add(new Student(
+                    studentEntity.getId(),
+                    studentEntity.getFirstName(),
+                    studentEntity.getLastName(),
+                    studentEntity.getGender(),
+                    studentEntity.getGrade(),
+                    studentEntity.getAddress(),
+                    studentEntity.getMobile()
+            ));
+        }
+
+        return allStudents;
     }
 }
