@@ -5,6 +5,8 @@ import edu.ds.model.entity.StudentEntity;
 import edu.ds.repository.StudentRepository;
 import edu.ds.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -82,4 +84,15 @@ public class StudentServiceImpl implements StudentService {
 
         return allStudents;
     }
+
+    @Override
+    public String generateId() {
+        return String.format("S%03d",Integer.parseInt(getLastRecord().getId().substring(1))+1);
+    }
+
+    private StudentEntity getLastRecord() {
+        PageRequest pageRequest = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "id"));
+        return studentRepository.findAll(pageRequest).stream().findFirst().orElse(null);
+    }
+
 }

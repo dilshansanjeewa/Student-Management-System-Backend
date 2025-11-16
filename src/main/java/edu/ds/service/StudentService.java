@@ -1,6 +1,7 @@
 package edu.ds.service;
 
 import edu.ds.model.dto.Student;
+import edu.ds.model.entity.StudentEntity;
 
 import java.util.List;
 
@@ -10,4 +11,5 @@ public interface StudentService {
     void update(Student student);
     void delete(String id);
     List<Student> getAll();
+    String generateId();
 }
